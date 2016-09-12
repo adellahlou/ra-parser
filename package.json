@@ -1,0 +1,12 @@
+{
+   "name": "relational-algebra-parser",
+   "version": "1.0.0",
+   "description": "Parses relational algebra expressions into an AST",
+   "main": "index.js",
+   "scripts": {
+	  "build" : "jison --debug parser.jison parser.jisonlex",
+	  "test"  : "node --harmony `which nodeunit` test"
+   },
+   "author": "Adel Lahlou",
+   "license": "ISC"
+}
