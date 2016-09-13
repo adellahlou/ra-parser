@@ -1,12 +1,19 @@
 {
-   "name": "relational-algebra-parser",
-   "version": "1.0.0",
-   "description": "Parses relational algebra expressions into an AST",
-   "main": "index.js",
-   "scripts": {
-	  "build" : "jison --debug parser.jison parser.jisonlex",
-	  "test"  : "node --harmony `which nodeunit` test"
-   },
-   "author": "Adel Lahlou",
-   "license": "ISC"
+  "name": "ra-parser",
+  "version": "0.1.0",
+  "description": "Defines Relation Algebra syntax and exposes a parser and lexer. Retuns simple AST. Look at compatible runtimes",
+  "main": "app.js",
+  "scripts": {
+    "build": "jison parser.jison parser.jisonlex",
+    "test": "node --harmony `which nodeunit` test",
+    "pretest": "npm run build"
+  },
+  "author": "Adel Lahlou <alahlou+git@u.northwestern.edu> (https://github.com/adellahlou)",
+  "license": "MIT",
+  "dependencies": {
+    "jison": "^0.4.16"
+  },
+  "devDependencies": {
+    "nodeunit": "^0.10.2"
+  }
 }

@@ -1,3 +1,6 @@
+
+%options case-insensitive
+
 id        [a-zA-Z][a-zA-Z0-9]*
 string    \'([^\']|\'\')*\'
 FLOAT     [0-9]+\.[0-9]+
@@ -17,17 +20,18 @@ NOT                           return 'NOT';
 ":="                          return 'ASSIGN';
 
 
-PROJECT                       return 'PROJECT';
-RENAME                        return 'RENAME';
-SELECT                        return 'SELECT';
-UNION|"+"                     return 'UNION';
-INTERSECT|"^"                 return 'INTERSECT';
-DIFFERENCE|"-"                return 'DIFFERENCE';
-PRODUCT|"X"                   return 'PRODUCT';
-DIVIDE|"/"                    return 'DIVIDE';
-JOIN|"~~"                     return 'JOIN';
-LEFTJOIN|"~@"                 return 'LEFTJOIN';
-RIGHTJOIN|"@~"                return 'RIGHTJOIN';
+"PROJECT"                       return 'PROJECT';
+"RENAME"                        return 'RENAME';
+"SELECT"                        return 'SELECT';
+"UNION"|"+"                     return 'UNION';
+"INTERSECT"|"^"                 return 'INTERSECT';
+"DIFFERENCE"|"-"                return 'DIFFERENCE';
+"PRODUCT"|"X"                   return 'PRODUCT';
+"DIVIDE"|"/"                    return 'DIVIDE';
+"LEFTJOIN"|"~@"                 return 'LEFTJOIN';
+"RIGHTJOIN"|"@~"                return 'RIGHTJOIN';
+"JOIN"|"~~"                     return 'JOIN';
+
 
 
 "("                           return '(';
