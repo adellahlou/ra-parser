@@ -9,6 +9,10 @@
     "pretest": "npm run build"
   },
   "author": "Adel Lahlou <alahlou+git@u.northwestern.edu> (https://github.com/adellahlou)",
+   "repository" : {
+   	  "type" : "git",
+   	  "url" : "https://github.com/adellahlou/ra-parser"
+   },
   "license": "MIT",
   "dependencies": {
     "jison": "^0.4.16"
