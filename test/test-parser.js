@@ -227,7 +227,7 @@ module.exports = {
 			new Program(
 			   new Assign('NewRelation',
 				  new Select(
-					 new ConditionList('==', 'attr1', 10),
+					 new ConditionList('==', new Value('attr1'), new Value(10)),
 					 new RelationReference('Arelation')))));
 
 	  test.deepEqual(parse("NewRelation := Select[attr1 == 10 AND attr2 != 'London'](Arelation);"),
@@ -235,8 +235,8 @@ module.exports = {
 			   new Assign('NewRelation',
 				  new Select(
 				  	 new ConditionList('AND',
-						new ConditionList('==', 'attr1', 10),
-						new ConditionList('!=', 'attr2', 'London')),
+						new ConditionList('==', new Value('attr1'), new Value(10)),
+						new ConditionList('!=', new Value('attr2'), new Value('London'))),
 					 new RelationReference('Arelation')))));
 
 	  test.deepEqual(parse("NewRelation := Select[NOT (attr1 == 10) AND attr2 != 'London'](Arelation);"),
@@ -245,8 +245,8 @@ module.exports = {
 				  new Select(
 					 new ConditionList('AND',
 						new ConditionList('NOT',
-						   new ConditionList('==', 'attr1', 10)),
-						new ConditionList('!=', 'attr2', 'London')),
+						   new ConditionList('==', new Value('attr1'), new Value(10))),
+						new ConditionList('!=', new Value('attr2'), new Value('London'))),
 					 new RelationReference('Arelation')))), "Test 1 for 'NOT' associativity");
 
 	  test.deepEqual(parse("NewRelation := Select[NOT (attr1 == 10 AND attr2 != 'London')](Arelation);"),
@@ -255,8 +255,8 @@ module.exports = {
 				  new Select(
 					 new ConditionList('NOT',
 						new ConditionList('AND',
-						   new ConditionList('==', 'attr1', 10),
-						   new ConditionList('!=', 'attr2', 'London'))),
+						   new ConditionList('==', new Value('attr1'), new Value(10)),
+						   new ConditionList('!=', new Value('attr2'), new Value('London')))),
 					 new RelationReference('Arelation')))), "Test 2 for 'NOT' associativity");
 	  test.done();
    },
@@ -278,9 +278,9 @@ module.exports = {
 			   new Assign('Brelation',
 				  new Select(
 					 new ConditionList('NOT',
-						new ConditionList('AND',
-						   new ConditionList('==', 'attr1', 2),
-						   new ConditionList('!=', 'attr2', 2))),
+						new ConditionList('OR',
+						   new ConditionList('==', new Value('attr1'), new Value(1)),
+						   new ConditionList('!=', new Value('attr2'), new Value(2)))),
 					 new RelationReference('Arelation'))),
 			   new Assign('Crelation',
 			   	  new Union(
