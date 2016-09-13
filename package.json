@@ -4,7 +4,7 @@
   "description": "Defines Relation Algebra syntax and exposes a parser and lexer. Retuns simple AST. Look at compatible runtimes",
   "main": "app.js",
   "scripts": {
-    "build": "jison parser.jison parser.jisonlex",
+    "build": "jison ./src/parser.jison ./src/parser.jisonlex -o ./src/parser.js",
     "test": "node --harmony `which nodeunit` test",
     "pretest": "npm run build"
   },

@@ -1,7 +1,7 @@
 "use strict";
 
 const 
-   parser = require('./parser.js'),
+   parser = require('./src/parser.js'),
    ast    = require('./AST.js');
 
 parser.lexer = parser.Parser.prototype.lexer;
