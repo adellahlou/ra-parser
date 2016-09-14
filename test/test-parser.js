@@ -2,7 +2,7 @@
 
 const 
    parser        = require('../app.js'),
-   ast           = require('../AST.js'),
+   ast           = parser.yy,
    Program       = ast.Program,
    Statement     = ast.Statement,
    Assign        = ast.Assign,
@@ -18,6 +18,7 @@ const
    Project       = ast.Project,
    Rename        = ast.Rename,
    Select        = ast.Select,
+   Attribute     = ast.Attribute,
    AttributeList = ast.AttributeList,
    ConditionList = ast.ConditionList,
    Relation      = ast.Relation,
@@ -150,54 +151,69 @@ module.exports = {
    testRelationLiterals: function(test){
 	  test.expect(5);
 	  		
-	  test.deepEqual(parse("[[attr1, attr2] -> [1,2], [2,3], [3,4]];"),
+	  test.deepEqual(parse("[[attr1 / Integer, attr2 / Integer] -> [1,2], [2,3], [3,4]];"),
 					 new Program(
 					 	new Assign('it',
 					 	   new Relation(
-					 	   	  new AttributeList(['attr1', 'attr2']),
+					 	   	  new AttributeList([
+					 	   	  	 new Attribute('attr1', 'Integer'),
+								 new Attribute('attr2', 'Integer')
+							  ]),
 					 	   	  [[new Value(1), new Value(2)],
 							  [new Value(2), new Value(3)],
 							  [new Value(3), new Value(4)]]))));
 
 	  
-	  test.deepEqual(parse("AnId := [[attr1, attr2] -> [1,2], [2,3], [3,4]];"),
+	  test.deepEqual(parse("AnId := [[attr1 / Integer, attr2 / Integer] -> [1,2], [2,3], [3,4]];"),
 					 new Program(
 					 	new Assign('AnId',
 					 	   new Relation(
-					 	   	  new AttributeList(['attr1', 'attr2']),
+					 	   	  new AttributeList([
+					 	   	  	 new Attribute('attr1', 'Integer'),
+								 new Attribute('attr2', 'Integer')
+							  ]),
 					 	   	  [[new Value(1), new Value(2)],
 							  [new Value(2), new Value(3)],
 							  [new Value(3), new Value(4)]]))));
 
-	  test.deepEqual(parse("AnId := [[attr1, attr2] -> [1,2], [2,3], [3,4]] + ARelation;"),
+	  test.deepEqual(parse("AnId := [[attr1 / Integer, attr2 / Integer] -> [1,2], [2,3], [3,4]] + ARelation;"),
 			new Program(
 			   new Assign('AnId',
 			   	  new Union(
 				  new Relation(
-					 new AttributeList(['attr1', 'attr2']),
+					 new AttributeList([
+					 	   	  	 new Attribute('attr1', 'Integer'),
+								 new Attribute('attr2', 'Integer')
+							  ]),
 					 [[new Value(1), new Value(2)],
 					 [new Value(2), new Value(3)],
 					 [new Value(3), new Value(4)]]),
 				  new RelationReference('ARelation')))));
 
-	  test.deepEqual(parse("AnId := ARelation1 ~~ [[attr1, attr2] -> [1,2], [2,3], [3,4]];"),
+	  test.deepEqual(parse("AnId := ARelation1 ~~ [[attr1 / Integer, attr2 / Integer] -> [1,2], [2,3], [3,4]];"),
 			new Program(
 			   new Assign('AnId',
 				  new NaturalJoin(
 				  	 new RelationReference('ARelation1'),
 					 new Relation(
-						new AttributeList(['attr1', 'attr2']),
+						new AttributeList([
+					 	   	  	 new Attribute('attr1', 'Integer'),
+								 new Attribute('attr2', 'Integer')
+							  ]),
 						[[new Value(1), new Value(2)],
 						[new Value(2), new Value(3)],
 						[new Value(3), new Value(4)]])))));
 
-	  test.deepEqual(parse('NewRelation := Project[attr1, attr2]([[attr1, attr2] -> [1,2], [2,3], [3,4]]);'),
+	  test.deepEqual(parse('NewRelation := Project[attr1, attr2]([[attr1 / Integer, attr2 / Integer] -> [1,2], [2,3], [3,4]]);'),
 			new Program(
 			   new Assign('NewRelation',
 				  new Project(
-					 new AttributeList(['attr1', 'attr2']),
+					 ['attr1', 'attr2'],
 					 new Relation(
-						new AttributeList(['attr1', 'attr2']),
+						new AttributeList([
+					 	   	  	 new Attribute('attr1', 'Integer'),
+								 new Attribute('attr2', 'Integer')
+							  ]),		
 						[[new Value(1), new Value(2)],
 						[new Value(2), new Value(3)],
 						[new Value(3), new Value(4)]])))));
@@ -212,7 +228,7 @@ module.exports = {
 			new Program(
 			   new Assign('NewRelation',
 				  new Project(
-					 new AttributeList(['attr1', 'attr2']),
+					 ['attr1', 'attr2'],
 					 new RelationReference('Data1')))));
 
 	  test.deepEqual(parse('NewRelation := Rename[oldattr/newattr](Data1);'),
@@ -264,14 +280,16 @@ module.exports = {
    testPrograms : function(test) {
 	  test.expect(1);
 
-	  test.deepEqual(parse("Arelation := [[attr1, attr2] -> [1,2], [2,3], [3,4]];" +
+	  test.deepEqual(parse("Arelation := [[attr1 / Integer, attr2 / Integer] -> [1,2], [2,3], [3,4]];" +
 	  		               "Brelation := Select[NOT (attr1 == 1 OR attr2 != 2)](Arelation);" +
 	  		               "Crelation := Arelation + Brelation;"),
 
 			new Program(
 			   [new Assign('Arelation',
 			   	  new Relation(
-						new AttributeList(['attr1', 'attr2']),
+						new AttributeList([
+						   new Attribute('attr1', 'Integer'),
+						   new Attribute('attr2', 'Integer')]),
 						[[new Value(1), new Value(2)],
 						[new Value(2), new Value(3)],
 						[new Value(3), new Value(4)]])),

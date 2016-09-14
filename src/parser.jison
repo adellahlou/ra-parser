@@ -37,14 +37,20 @@ expression
    | expression JOIN expression           -> new yy.NaturalJoin( $1, $3 )
    | expression LEFTJOIN expression       -> new yy.LeftJoin( $1, $3 )
    | expression RIGHTJOIN expression      -> new yy.RightJoin( $1, $3 )
-   | PROJECT '[' AttributeList ']' '(' expression ')' -> new yy.Project($3, $6 )
+   | PROJECT '[' ProjectList ']' '(' expression ')' -> new yy.Project($3, $6 )
    | RENAME  '[' ID DIVIDE ID ']' '(' expression ')'  -> new yy.Rename( $8, $3, $5 )
    | SELECT  '[' ConditionList ']' '(' expression ')' -> new yy.Select($3, $6 )
    ;
 
+ProjectList
+   : ID                                   -> [yytext]
+   | ProjectList ',' ID 
+   { $$ = $1; $$.push($3); }
+   ;
+
 AttributeList
-   : ID                                   -> new yy.AttributeList( [$1] )
-   | AttributeList ',' ID                 -> $1.add($3)
+   : ID DIVIDE ID                         -> new yy.AttributeList([new yy.Attribute($1, $3)])
+   | AttributeList ',' ID DIVIDE ID       -> $1.add(new yy.Attribute($3, $5))
    ;
 
 ConditionList

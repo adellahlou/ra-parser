@@ -59,7 +59,7 @@ module.exports = (function() {
 		 this.right = right;
 	  },
 
-    /* Unary Expressions */
+	  /* Unary Expressions */
 	  Project : function(attributeList, relation){
 		 this.attributeList = attributeList;
 		 this.relation = relation;
@@ -77,14 +77,20 @@ module.exports = (function() {
 	  },
 
 	  /* Terminals  */
+
+	  Attribute : function(name, valueType) {
+		 this.name = name;
+		 this.valueType = valueType;
+	  },
+
 	  AttributeList : function(attribute){
 		 this.attributes = Array.isArray(attribute) ? attribute : [attribute];
 	  },
 
 	  ConditionList : function(op, left, right){
-      this.op = op;
-      this.left = left;
-      this.right = right;
+		 this.op = op;
+		 this.left = left;
+		 this.right = right;
 	  },
 
 	  RelationReference : function(name) {
@@ -103,12 +109,12 @@ module.exports = (function() {
 
    // Methods for certain nodes
    ast.AttributeList.prototype.add = function(attribute){
-     this.attributes.push(attribute);
-     return this;
+	  this.attributes.push(attribute);
+	  return this;
    };
 
    ast.Value.prototype.getType = function(){
-     return typeof this.value;
+	  return typeof this.value;
    }
 
    // Assign types to make node checking easier
@@ -126,6 +132,7 @@ module.exports = (function() {
    ast.Project.prototype.type = 'Project';
    ast.Rename.prototype.type = 'Rename';
    ast.Select.prototype.type = 'Select';
+   ast.Attribute.prototype.type = 'Attribute';
    ast.AttributeList.prototype.type = 'AttributeList';
    ast.ConditionList.prototype.type = 'ConditionList';
    ast.RelationReference.prototype.type = 'RelationReference';
@@ -135,13 +142,15 @@ module.exports = (function() {
    // ast helper members
    ast.binaryExprTypes = ['INTERSECT', 'UNION', 'DIFFERENCE', 'PRODUCT', 'DIVIDE', 'NATURALJOIN', 'THETAJOIN', 'LEFTJOIN', 'RIGHTJOIN'];
    ast.unaryExprTypes  = ['PROJECT', 'SELECT', 'RENAME'];
+   ast.metaTypes = ['PROGRAM', 'ASSIGN', 'RELATION', 'VALUE', 'RELATIONREFERENCE', 'ATTRIBUTELIST', 'CONDITIONLIST'];
+   ast.nodeTypes = ast.metaTypes.concat(ast.binaryExprTypes.concat(ast.unaryExprTypes));
 
    ast.isBinaryExpr = (node) => {
-     return node.type.toUpperCase() in ast.binaryExprTypes;
+	  return node.type.toUpperCase() in ast.binaryExprTypes;
    }
 
    ast.isUnaryExpr = (node) => {
-     return node.type.toUpperCase() in ast.unaryExprTypes;
+	  return node.type.toUpperCase() in ast.unaryExprTypes;
    }
 
    return ast;

@@ -2,7 +2,7 @@
 
 const 
    parser = require('./src/parser.js'),
-   ast    = require('./AST.js');
+   ast    = require('./ast.js');
 
 parser.lexer = parser.Parser.prototype.lexer;
 parser.yy = ast;
