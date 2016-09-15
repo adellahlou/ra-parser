@@ -147,10 +147,10 @@ case 21: case 37:
  this.$ = $$[$0-2]; this.$.push($$[$0]); 
 break;
 case 22:
-this.$ = new yy.AttributeList([new yy.Attribute($$[$0-2], $$[$0])]);
+this.$ = [new yy.Attribute($$[$0-2], $$[$0])];
 break;
 case 23:
-this.$ = $$[$0-4].add(new yy.Attribute($$[$0-2], $$[$0]));
+ this.$ = $$[$0-4]; this.$.push(new yy.Attribute($$[$0-2], $$[$0])); 
 break;
 case 24:
 this.$ = new yy.ConditionList($$[$0-1], $$[$0-2], $$[$0]);

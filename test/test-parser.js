@@ -27,7 +27,7 @@ const
    parse         = function(input){
 	  return parser.parse(input);
    };
- 
+
 module.exports = {
    testBinaryExprWithReferences : function(test) {
 	  test.expect(16);
@@ -150,73 +150,68 @@ module.exports = {
 
    testRelationLiterals: function(test){
 	  test.expect(5);
-	  		
-	  test.deepEqual(parse("[[attr1 / Integer, attr2 / Integer] -> [1,2], [2,3], [3,4]];"),
-					 new Program(
-					 	new Assign('it',
-					 	   new Relation(
-					 	   	  new AttributeList([
-					 	   	  	 new Attribute('attr1', 'Integer'),
-								 new Attribute('attr2', 'Integer')
-							  ]),
-					 	   	  [[1, 2],
-							  [2, 3],
-							  [3, 4]]))));
 
-	  
+	  test.deepEqual(parse("[[attr1 / Integer, attr2 / Integer] -> [1,2], [2,3], [3,4]];"),
+			new Program(
+			   new Assign('it',
+				  new Relation([
+					 new Attribute('attr1', 'Integer'),
+					 new Attribute('attr2', 'Integer')
+				  ],
+				  [[1, 2],
+				  [2, 3],
+				  [3, 4]]))));
+
+
 	  test.deepEqual(parse("AnId := [[attr1 / Integer, attr2 / Integer] -> [1,2], [2,3], [3,4]];"),
-					 new Program(
-					 	new Assign('AnId',
-					 	   new Relation(
-					 	   	  new AttributeList([
-					 	   	  	 new Attribute('attr1', 'Integer'),
-								 new Attribute('attr2', 'Integer')
-							  ]),
-					 	   	  [[1, 2],
-							  [2, 3],
-							  [3, 4]]))));
+			new Program(
+			   new Assign('AnId',
+				  new Relation([
+					 new Attribute('attr1', 'Integer'),
+					 new Attribute('attr2', 'Integer')
+				  ],
+				  [[1, 2],
+				  [2, 3],
+				  [3, 4]]))));
 
 	  test.deepEqual(parse("AnId := [[attr1 / Integer, attr2 / Integer] -> [1,2], [2,3], [3,4]] + ARelation;"),
 			new Program(
 			   new Assign('AnId',
-			   	  new Union(
-				  new Relation(
-					 new AttributeList([
-					 	   	  	 new Attribute('attr1', 'Integer'),
-								 new Attribute('attr2', 'Integer')
-							  ]),
+				  new Union(
+					 new Relation([
+						new Attribute('attr1', 'Integer'),
+						new Attribute('attr2', 'Integer')
+					 ],
 					 [[1, 2],
 					 [2, 3],
 					 [3, 4]]),
-				  new RelationReference('ARelation')))));
+					 new RelationReference('ARelation')))));
 
 	  test.deepEqual(parse("AnId := ARelation1 ~~ [[attr1 / Integer, attr2 / Integer] -> [1,2], [2,3], [3,4]];"),
 			new Program(
 			   new Assign('AnId',
 				  new NaturalJoin(
-				  	 new RelationReference('ARelation1'),
-					 new Relation(
-						new AttributeList([
-					 	   	  	 new Attribute('attr1', 'Integer'),
-								 new Attribute('attr2', 'Integer')
-							  ]),
-						[[1, 2],
-						[2, 3],
-						[3, 4]])))));
+					 new RelationReference('ARelation1'),
+					 new Relation([
+						new Attribute('attr1', 'Integer'),
+						new Attribute('attr2', 'Integer')
+					 ],
+					 [[1, 2],
+					 [2, 3],
+					 [3, 4]])))));
 
 	  test.deepEqual(parse('NewRelation := Project[attr1, attr2]([[attr1 / Integer, attr2 / Integer] -> [1,2], [2,3], [3,4]]);'),
 			new Program(
 			   new Assign('NewRelation',
 				  new Project(
 					 ['attr1', 'attr2'],
-					 new Relation(
-						new AttributeList([
-					 	   	  	 new Attribute('attr1', 'Integer'),
-								 new Attribute('attr2', 'Integer')
-							  ]),		
-						[[1, 2],
-						[2, 3],
-						[3, 4]])))));
+					 new Relation([
+						new Attribute('attr1', 'Integer'),
+						new Attribute('attr2', 'Integer')
+					 ],		
+					 [[1, 2],
+					 [2, 3],
+					 [3, 4]])))));
 
 	  test.done();
    },
@@ -250,7 +245,7 @@ module.exports = {
 			new Program(
 			   new Assign('NewRelation',
 				  new Select(
-				  	 new ConditionList('AND',
+					 new ConditionList('AND',
 						new ConditionList('==', 'attr1', 10),
 						new ConditionList('!=', 'attr2', 'London')),
 					 new RelationReference('Arelation')))), "Test Select - AND condition");
@@ -279,20 +274,20 @@ module.exports = {
 
    testPrograms : function(test) {
 	  test.expect(1);
-	  
+
 	  test.deepEqual(parse("Arelation := [[attr1 / Integer, attr2 / Integer] -> [1,2], [2,3], [3,4]];" +
-	  		               "Brelation := Select[NOT (attr1 == 1 OR attr2 != 2)](Arelation);" +
-	  		               "Crelation := Arelation + Brelation;"),
+			   "Brelation := Select[NOT (attr1 == 1 OR attr2 != 2)](Arelation);" +
+			   "Crelation := Arelation + Brelation;"),
 
 			new Program(
 			   [new Assign('Arelation',
-			   	  new Relation(
-						new AttributeList([
-						   new Attribute('attr1', 'Integer'),
-						   new Attribute('attr2', 'Integer')]),
-						[[1, 2],
-						[2, 3],
-						[3, 4]])),
+				  new Relation([
+					 new Attribute('attr1', 'Integer'),
+					 new Attribute('attr2', 'Integer')
+				  ],
+				  [[1, 2],
+				  [2, 3],
+				  [3, 4]])),
 			   new Assign('Brelation',
 				  new Select(
 					 new ConditionList('NOT',
@@ -301,9 +296,9 @@ module.exports = {
 						   new ConditionList('!=', 'attr2', 2))),
 					 new RelationReference('Arelation'))),
 			   new Assign('Crelation',
-			   	  new Union(
-			   	  	 new RelationReference('Arelation'),
-			   	  	 new RelationReference('Brelation')))]));
+				  new Union(
+					 new RelationReference('Arelation'),
+					 new RelationReference('Brelation')))]));
 	  test.done();
    },
 };
