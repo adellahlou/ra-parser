@@ -62,10 +62,10 @@ ConditionList
    ;
 
 Value
-   : ID                                -> new yy.Value(yytext)
-   | STRING                            -> new yy.Value(yytext.substring(1, yytext.length - 1))
-   | FLOAT                             -> new yy.Value(parseFloat(yytext))
-   | INT                               -> new yy.Value(parseInt(yytext, 10))
+   : ID                                -> yytext
+   | STRING                            -> yytext.substring(1, yytext.length - 1)
+   | FLOAT                             -> parseFloat(yytext)
+   | INT                               -> parseInt(yytext, 10)
    ;
 
 Relation

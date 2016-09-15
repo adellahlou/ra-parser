@@ -165,16 +165,16 @@ case 28:
 this.$ = new yy.ConditionList('OR', $$[$0-2], $$[$0]);
 break;
 case 29:
-this.$ = new yy.Value(yytext);
+this.$ = yytext;
 break;
 case 30:
-this.$ = new yy.Value(yytext.substring(1, yytext.length - 1));
+this.$ = yytext.substring(1, yytext.length - 1);
 break;
 case 31:
-this.$ = new yy.Value(parseFloat(yytext));
+this.$ = parseFloat(yytext);
 break;
 case 32:
-this.$ = new yy.Value(parseInt(yytext, 10));
+this.$ = parseInt(yytext, 10);
 break;
 case 33:
 this.$ = new yy.Relation($$[$0-4], $$[$0-1]);
