@@ -230,9 +230,9 @@ module.exports = {
 			new Program(
 			   new Assign('NewRelation',
 				  new Rename(
-					 new RelationReference('Data1'),
 					 'oldattr',
-					 'newattr'))), "Test Rename");
+					 'newattr',
+					 new RelationReference('Data1')))), "Test Rename");
 
 	  test.deepEqual(parse('NewRelation := Select[attr1 == 10](Arelation);'),
 			new Program(

@@ -135,7 +135,7 @@ case 17:
 this.$ = new yy.Project($$[$0-4], $$[$0-1] );
 break;
 case 18:
-this.$ = new yy.Rename( $$[$0-1], $$[$0-6], $$[$0-4] );
+this.$ = new yy.Rename($$[$0-6], $$[$0-4], $$[$0-1]);
 break;
 case 19:
 this.$ = new yy.Select($$[$0-4], $$[$0-1] );

@@ -38,7 +38,7 @@ expression
    | expression LEFTJOIN expression       -> new yy.LeftJoin( $1, $3 )
    | expression RIGHTJOIN expression      -> new yy.RightJoin( $1, $3 )
    | PROJECT '[' ProjectList ']' '(' expression ')'   -> new yy.Project($3, $6 )
-   | RENAME  '[' ID DIVIDE ID ']' '(' expression ')'  -> new yy.Rename( $8, $3, $5 )
+   | RENAME  '[' ID DIVIDE ID ']' '(' expression ')'  -> new yy.Rename($3, $5, $8)
    | SELECT  '[' ConditionList ']' '(' expression ')' -> new yy.Select($3, $6 )
    ;
 
